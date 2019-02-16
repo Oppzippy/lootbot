@@ -5,12 +5,6 @@ const config = require("./config.json");
 const bot = new SpreadsheetBot(config.discordToken);
 const sheetInterface = new SpreadsheetInterface(config.googleCredentials, config.spreadsheetId);
 
-const OPTIONS_MAP = { // TODO: Include in the sheet
-	majorupgrade: "Major Upgrade",
-	minorupgrade: "Minor Upgrade",
-	pass: "Pass",
-};
-
 bot.addCommand("loot", async (msg, args) => {
 	if (args.length < 2) {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
