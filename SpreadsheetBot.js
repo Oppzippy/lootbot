@@ -9,7 +9,7 @@ class SpreadsheetBot {
 		this.client.login(token);
 
 		this.client.on("ready", () => {
-			console.log(`Logged in as ${client.user.tag}`);
+			console.log(`Logged in as ${this.client.user.tag}`);
 		});
 
 		this.client.on("message", (msg) => {
@@ -19,7 +19,7 @@ class SpreadsheetBot {
 				const callback = this.commands[command];
 				if (callback) {
 					const args = match[2].split(" ");
-					callback(command, args);
+					callback(msg, args);
 				}
 			}
 		});
