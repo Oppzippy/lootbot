@@ -1,0 +1,4 @@
+{
+    "discordToken": "",
+    "google": {} // contents of credentials.json
+}
