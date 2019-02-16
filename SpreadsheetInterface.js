@@ -1,6 +1,7 @@
 const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
+
 const TOKEN_PATH = "googletoken.json";
 const SCOPE = [
 	"https://www.googleapis.com/auth/spreadsheets",
@@ -21,6 +22,7 @@ class SpreadsheetInterface {
 			} else {
 				this.oAuth2Client.setCredentials(JSON.parse(token));
 			}
+			this.getSheetData();
 		});
 	}
 
@@ -53,26 +55,93 @@ class SpreadsheetInterface {
 		});
 	}
 
-	getDiscordPermissions() {
+	async getSheetData() {
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
-		sheets.spreadsheets.values.get({
+		const res = await sheets.spreadsheets.values.batchGet({
 			spreadsheetId: this.spreadsheetId,
-			range: "'Discord Mapping'!A2:B",
-		}, (err, res) => {
-			const rows = res.data.values;
-			const permissions = {};
-			rows.forEach((row) => {
-				if (!permissions[row[0]]) {
-					permissions[row[0]] = [];
-				}
-				permissions[row[0]].push(row[1]);
-			});
-			return permissions;
+			ranges: [
+				"'Discord Mapping'!A2:B",
+				"'Loot'!A:J",
+				"'Loot Options'!A:B",
+			],
 		});
+		const permissionsSheet = res.data.valueRanges[0].values;
+		const lootSheet = res.data.valueRanges[1].values;
+		const optionsSheet = res.data.valueRanges[2].values;
+		if (permissionsSheet && lootSheet && optionsSheet) {
+			const {
+				bosses, names, permissions, options,
+			} = SpreadsheetInterface.createSheetData(lootSheet, permissionsSheet, optionsSheet);
+			this.bosses = bosses;
+			this.names = names;
+			this.permissions = permissions;
+			this.options = options;
+		} else {
+			console.error("Error fetching sheet data");
+		}
 	}
 
-	getCell(name, boss) {
+	static createSheetData(lootSheet, permissionsSheet, optionsSheet) {
+		const bosses = SpreadsheetInterface.getBosses(lootSheet[0]);
+		const names = SpreadsheetInterface.getNames(lootSheet);
+		const permissions = SpreadsheetInterface.getPermissions(permissionsSheet);
+		const options = SpreadsheetInterface.getOptions(optionsSheet);
+		return {
+			bosses, names, permissions, options,
+		};
+	}
+
+	static getBosses(row) {
+		const bosses = {};
+		for (let i = 0; i < row.length; i++) {
+			if (row[i] !== "") {
+				bosses[row[i].toLowerCase()] = String.fromCharCode(65 + i);
+			}
+		}
+		return bosses;
+	}
+
+	static getNames(lootSheet) {
+		const names = {};
+		for (let i = 1; i < lootSheet.length; i++) {
+			const name = lootSheet[i][0];
+			if (name !== "") {
+				names[name.toLowerCase()] = i + 1;
+			}
+		}
+		return names;
+	}
+
+	static getPermissions(permissionsSheet) {
+		const permissions = {};
+		permissionsSheet.forEach((row) => {
+			if (!permissions[row[0]]) {
+				permissions[row[0]] = [];
+			}
+			permissions[row[0]].push(row[1].toLowerCase());
+		});
+		return permissions;
+	}
+
+	static getOptions(optionsSheet) {
+		const options = {};
+		optionsSheet.forEach((row) => {
+			options[row[0].toLowerCase()] = row[1];
+		});
+		return options;
+	}
+
+	async setLootStatus(name, boss, status) {
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
+		const range = this.bosses[boss.toLowerCase()] + this.names[name.toLowerCase()];
+		await sheets.spreadsheets.values.update({
+			spreadsheetId: this.spreadsheetId,
+			range: range,
+			valueInputOption: "USER_ENTERED",
+			resource: {
+				values: [[status]],
+			},
+		});
 	}
 }
 

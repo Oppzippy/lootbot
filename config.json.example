@@ -1,4 +1,6 @@
 {
-    "discordToken": "",
-    "google": {} // contents of credentials.json
+"discordToken": "",
+"spreadsheetId": "",
+"channel": "lootbot",
+"googleCredentials": {}
 }

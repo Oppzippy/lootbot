@@ -18,7 +18,7 @@ class SpreadsheetBot {
 				const command = match[1];
 				const callback = this.commands[command];
 				if (callback) {
-					const args = match[2].split(" ");
+					const args = match[2].trim().split(" ");
 					callback(msg, args);
 				}
 			}
