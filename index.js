@@ -6,6 +6,9 @@ const bot = new SpreadsheetBot(config.discordToken);
 const sheetInterface = new SpreadsheetInterface(config.googleCredentials, config.spreadsheetId);
 
 bot.addCommand("loot", async (msg, args) => {
+	if (msg.channel.name !== config.channel) {
+		return;
+	}
 	if (args.length < 2) {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
 		return;
