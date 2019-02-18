@@ -12,11 +12,11 @@ class SheetPermissions {
 	}
 
 	contains(id) {
-		return this.permissions[id] !== null;
+		return this.permissions[id] !== undefined;
 	}
 
 	hasPermission(id, name) {
-		return this.permissions[id] && this.permissions[id].contains(name.toLowerCase());
+		return this.permissions[id] && this.permissions[id].includes(name.toLowerCase());
 	}
 
 	getName(id) {

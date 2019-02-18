@@ -13,7 +13,7 @@ bot.addCommand("loot", async (msg, args) => {
 	await sheetInterface.getSheetData();
 	const boss = args[0];
 	const option = args[1];
-	let name = sheetInterface.permission.getName(msg.author.id);
+	let name = sheetInterface.permissions.getName(msg.author.id);
 
 	// Check boss existance
 	if (!sheetInterface.bosses.contains(boss)) {

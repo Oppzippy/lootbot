@@ -9,11 +9,11 @@ class SheetOptions {
 	}
 
 	contains(option) {
-		return this.options[option.toLowerCase()] !== null;
+		return this.options[option.toLowerCase()] !== undefined;
 	}
 
 	getOptions() {
-		return this.options.keys();
+		return Object.keys(this.options);
 	}
 
 	getLocalized(option) {

@@ -12,11 +12,11 @@ class SheetBosses {
 	}
 
 	contains(boss) {
-		return this.bosses[boss.toLowerCase()] !== null;
+		return this.bosses[boss.toLowerCase()] !== undefined;
 	}
 
 	getBosses() {
-		return this.bosses.keys();
+		return Object.keys(this.bosses);
 	}
 
 	getColumn(boss) {

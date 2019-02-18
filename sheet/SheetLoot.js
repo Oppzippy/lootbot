@@ -12,7 +12,7 @@ class SheetLoot {
 	}
 
 	contains(name) {
-		return this.names[name.toLowerCase()] !== null;
+		return this.names[name.toLowerCase()] !== undefined;
 	}
 
 	getRow(name) {
