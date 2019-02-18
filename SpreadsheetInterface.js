@@ -1,6 +1,10 @@
 const fs = require("fs");
 const readline = require("readline");
 const { google } = require("googleapis");
+const SheetBosses = require("./sheet/SheetBosses");
+const SheetLoot = require("./sheet/SheetLoot");
+const SheetOptions = require("./sheet/SheetOptions");
+const SheetPermissions = require("./sheet/SheetPermissions");
 
 const TOKEN_PATH = "googletoken.json";
 const SCOPE = [
@@ -60,80 +64,27 @@ class SpreadsheetInterface {
 		const res = await sheets.spreadsheets.values.batchGet({
 			spreadsheetId: this.spreadsheetId,
 			ranges: [
-				"'Discord Mapping'!A2:B",
-				"'Loot'!A:J",
-				"'Loot Options'!A:B",
+				"'Discord Mapping'!A2:B", // Discord permissions
+				"'Loot'!A:J", // Boss names, player names
+				"'Loot Options'!A:B", // Major upgrade, minor upgrade, etc.
 			],
 		});
 		const permissionsSheet = res.data.valueRanges[0].values;
 		const lootSheet = res.data.valueRanges[1].values;
 		const optionsSheet = res.data.valueRanges[2].values;
 		if (permissionsSheet && lootSheet && optionsSheet) {
-			const {
-				bosses, names, permissions, options,
-			} = SpreadsheetInterface.createSheetData(lootSheet, permissionsSheet, optionsSheet);
-			this.bosses = bosses;
-			this.names = names;
-			this.permissions = permissions;
-			this.options = options;
+			this.bosses = new SheetBosses(lootSheet);
+			this.names = new SheetLoot(lootSheet);
+			this.permissions = new SheetPermissions(permissionsSheet);
+			this.options = new SheetOptions(optionsSheet);
 		} else {
 			console.error("Error fetching sheet data");
 		}
 	}
 
-	static createSheetData(lootSheet, permissionsSheet, optionsSheet) {
-		const bosses = SpreadsheetInterface.getBosses(lootSheet[0]);
-		const names = SpreadsheetInterface.getNames(lootSheet);
-		const permissions = SpreadsheetInterface.getPermissions(permissionsSheet);
-		const options = SpreadsheetInterface.getOptions(optionsSheet);
-		return {
-			bosses, names, permissions, options,
-		};
-	}
-
-	static getBosses(row) {
-		const bosses = {};
-		for (let i = 0; i < row.length; i++) {
-			if (row[i] !== "") {
-				bosses[row[i].toLowerCase()] = String.fromCharCode(65 + i);
-			}
-		}
-		return bosses;
-	}
-
-	static getNames(lootSheet) {
-		const names = {};
-		for (let i = 1; i < lootSheet.length; i++) {
-			const name = lootSheet[i][0];
-			if (name !== "") {
-				names[name.toLowerCase()] = i + 1;
-			}
-		}
-		return names;
-	}
-
-	static getPermissions(permissionsSheet) {
-		const permissions = {};
-		permissionsSheet.forEach((row) => {
-			if (!permissions[row[0]]) {
-				permissions[row[0]] = [];
-			}
-			permissions[row[0]].push(row[1].toLowerCase());
-		});
-		return permissions;
-	}
-
-	static getOptions(optionsSheet) {
-		const options = {};
-		optionsSheet.forEach((row) => {
-			options[row[0].toLowerCase()] = row[1];
-		});
-		return options;
-	}
-
 	async setLootStatus(name, boss, status) {
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
-		const range = this.bosses[boss.toLowerCase()] + this.names[name.toLowerCase()];
+		const range = this.bosses.getColumn(boss) + this.names.getRow(name);
 		await sheets.spreadsheets.values.update({
 			spreadsheetId: this.spreadsheetId,
 			range: range,

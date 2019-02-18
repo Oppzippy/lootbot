@@ -11,37 +11,34 @@ bot.addCommand("loot", async (msg, args) => {
 		return;
 	}
 	await sheetInterface.getSheetData();
-	const boss = args[0].toLowerCase();
-	if (!sheetInterface.bosses[boss]) {
+	const boss = args[0];
+	const option = args[1];
+	let name = sheetInterface.permission.getName(msg.author.id);
+
+	// Check boss existance
+	if (!sheetInterface.bosses.contains(boss)) {
 		msg.reply(`${args[0]} is not a boss. Type !loothelp for help.`);
 		return;
 	}
-	const option = args[1].toLowerCase();
-	if (!sheetInterface.options[option]) {
+	// Check option existance
+	if (!sheetInterface.options.contains(option)) {
 		msg.reply(`${args[1]} is not a valid option. Type !loothelp for help.`);
 		return;
 	}
-
-	const permissions = sheetInterface.permissions[msg.author.id];
-	let name = null;
+	// Get character name
 	if (args.length >= 3) {
-		name = args[2].toLowerCase();
-	} else if (permissions && permissions.length === 1) {
-		name = permissions[0].toLowerCase();
-	} else if (permissions) {
+		name = args[2];
+	} else if (!name) {
 		msg.reply("Please specify a character name. Type !loothelp for help.");
-		return;
-	} else {
-		msg.reply("You don't have permission to do that. Message Oppy if this is an error.");
 		return;
 	}
 
-	if (!permissions || !permissions.includes(name)) {
+	if (!sheetInterface.permissions.hasPermission(msg.author.id, name)) {
 		msg.reply(`You don't have permission to edit ${name}`);
 		return;
 	}
 
-	const localizedOption = sheetInterface.options[option];
+	const localizedOption = sheetInterface.options.getLocalized(option);
 	await sheetInterface.setLootStatus(name, boss, localizedOption);
 	msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
 });
