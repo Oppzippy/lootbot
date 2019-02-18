@@ -43,10 +43,11 @@ bot.addCommand("loot", async (msg, args) => {
 	msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
 });
 
-bot.addCommand("loothelp", (msg) => {
+bot.addCommand("loothelp", async (msg) => {
+	await sheetInterface.getSheetData();
 	msg.reply(`Usage: !loot <boss> <status> [playername]
-<boss> options: champions, grong, jadefire, opulence, conclave, rastakhan, mekkatorque, blockade, jaina
-<status> options: majorupgrade, minorupgrade, pass
+<boss> options: ${sheetInterface.bosses.getBosses().join(", ")}
+<status> options: ${sheetInterface.options.getOptions().join(", ")}
 [playername]: Required if you have one or more alts listed in the spreadsheet, optional otherwise.
 	`);
 });
