@@ -3,6 +3,7 @@ const SpreadsheetBot = require("./SpreadsheetBot");
 const SpreadsheetInterface = require("./SpreadsheetInterface");
 const config = require("./config.json");
 
+console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
 const sheetInterface = new SpreadsheetInterface(config.googleCredentials, config.spreadsheetId);
 
