@@ -1,3 +1,4 @@
+require("./Log");
 const SpreadsheetBot = require("./SpreadsheetBot");
 const SpreadsheetInterface = require("./SpreadsheetInterface");
 const config = require("./config.json");
