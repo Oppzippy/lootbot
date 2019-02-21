@@ -11,7 +11,7 @@ const SCOPE = [
 	"https://www.googleapis.com/auth/spreadsheets",
 ];
 
-class SpreadsheetInterface {
+class SpreadsheetController {
 	constructor(credentials, spreadsheetId) {
 		this.spreadsheetId = spreadsheetId;
 		const installed = credentials.installed;
@@ -96,4 +96,4 @@ class SpreadsheetInterface {
 	}
 }
 
-module.exports = SpreadsheetInterface;
+module.exports = SpreadsheetController;

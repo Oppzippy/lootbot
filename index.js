@@ -1,11 +1,11 @@
 require("./Log");
 const SpreadsheetBot = require("./SpreadsheetBot");
-const SpreadsheetInterface = require("./SpreadsheetInterface");
+const SpreadsheetController = require("./SpreadsheetController");
 const config = require("./config.json");
 
 console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
-const sheetInterface = new SpreadsheetInterface(config.googleCredentials, config.spreadsheetId);
+const sheetInterface = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
 
 bot.addCommand("loot", async (msg, args) => {
 	if (args.length < 2) {
