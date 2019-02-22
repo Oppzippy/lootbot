@@ -59,14 +59,14 @@ class SpreadsheetController {
 		});
 	}
 
-	async getSheetData(config) {
+	async getSheetData(ranges) {
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
 		const res = await sheets.spreadsheets.values.batchGet({
 			spreadsheetId: this.spreadsheetId,
 			ranges: [
-				config.permissionsSheet, // Discord permissions
-				config.lootSheet, // Boss names, player names
-				config.optionsSheet, // Major upgrade, minor upgrade, etc.
+				ranges.permissions, // Discord permissions
+				ranges.loot, // Boss names, player names
+				ranges.options, // Major upgrade, minor upgrade, etc.
 			],
 		});
 		const permissionsSheet = res.data.valueRanges[0].values;
