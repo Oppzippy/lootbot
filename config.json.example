@@ -1,5 +1,9 @@
 {
-    "lootSheet": "Loot",
+    "ranges": {
+        "loot": "'Loot'!A:Z",
+        "permissions": "'Permissions'!A2:B",
+        "options": "'Loot Options'A2:B"
+    },
     "permissionsSheet": "Permissions",
     "optionsSheet": "Loot Options",
     "discordToken": "",

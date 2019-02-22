@@ -12,7 +12,7 @@ bot.addCommand("loot", async (msg, args) => {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
 		return;
 	}
-	await sheetInterface.getSheetData(config);
+	await sheetInterface.getSheetData(config.ranges);
 	const boss = args[0];
 	const option = args[1];
 	let name = sheetInterface.permissions.getName(msg.author.id);
@@ -46,7 +46,7 @@ bot.addCommand("loot", async (msg, args) => {
 });
 
 bot.addCommand("loothelp", async (msg) => {
-	await sheetInterface.getSheetData(config);
+	await sheetInterface.getSheetData(config.ranges);
 	msg.reply(`Usage: !loot <boss> <status> [playername]
 <boss> options: ${sheetInterface.bosses.getBosses().join(", ")}
 <status> options: ${sheetInterface.options.getOptions().join(", ")}
