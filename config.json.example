@@ -1,4 +1,7 @@
 {
+    "lootSheet": "Loot",
+    "permissionsSheet": "Permissions",
+    "optionsSheet": "Loot Options",
     "discordToken": "",
     "spreadsheetId": "",
     "googleCredentials": {}
