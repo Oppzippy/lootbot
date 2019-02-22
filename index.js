@@ -5,25 +5,25 @@ const config = require("./config.json");
 
 console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
-const sheetInterface = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
+const sheetController = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
 
 bot.addCommand("loot", async (msg, args) => {
 	if (args.length < 2) {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
 		return;
 	}
-	await sheetInterface.getSheetData(config.ranges);
+	await sheetController.getSheetData(config.ranges);
 	const boss = args[0];
 	const option = args[1];
-	let name = sheetInterface.permissions.getName(msg.author.id);
+	let name = sheetController.permissions.getName(msg.author.id);
 
 	// Check boss existance
-	if (!sheetInterface.bosses.contains(boss)) {
+	if (!sheetController.bosses.contains(boss)) {
 		msg.reply(`${args[0]} is not a boss. Type !loothelp for help.`);
 		return;
 	}
 	// Check option existance
-	if (!sheetInterface.options.contains(option)) {
+	if (!sheetController.options.contains(option)) {
 		msg.reply(`${args[1]} is not a valid option. Type !loothelp for help.`);
 		return;
 	}
@@ -35,21 +35,21 @@ bot.addCommand("loot", async (msg, args) => {
 		return;
 	}
 
-	if (!sheetInterface.permissions.hasPermission(msg.author.id, name)) {
+	if (!sheetController.permissions.hasPermission(msg.author.id, name)) {
 		msg.reply(`You don't have permission to edit ${name}`);
 		return;
 	}
 
-	const localizedOption = sheetInterface.options.getLocalized(option);
-	await sheetInterface.setLootStatus(name, boss, localizedOption);
+	const localizedOption = sheetController.options.getLocalized(option);
+	await sheetController.setLootStatus(name, boss, localizedOption);
 	msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
 });
 
 bot.addCommand("loothelp", async (msg) => {
-	await sheetInterface.getSheetData(config.ranges);
+	await sheetController.getSheetData(config.ranges);
 	msg.reply(`Usage: !loot <boss> <status> [playername]
-<boss> options: ${sheetInterface.bosses.getBosses().join(", ")}
-<status> options: ${sheetInterface.options.getOptions().join(", ")}
+<boss> options: ${sheetController.bosses.getBosses().join(", ")}
+<status> options: ${sheetController.options.getOptions().join(", ")}
 [playername]: Required if you have one or more alts listed in the spreadsheet, optional otherwise.
 	`);
 });
