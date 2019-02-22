@@ -66,7 +66,7 @@ class SpreadsheetController {
 			ranges: [
 				`'${config.permissionsSheet}'!A2:B`, // Discord permissions
 				`'${config.lootSheet}'!A:J`, // Boss names, player names
-				`'${config.optionsSheet}'!A:B`, // Major upgrade, minor upgrade, etc.
+				`'${config.optionsSheet}'!A2:B`, // Major upgrade, minor upgrade, etc.
 			],
 		});
 		const permissionsSheet = res.data.valueRanges[0].values;
