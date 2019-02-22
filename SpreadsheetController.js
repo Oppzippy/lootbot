@@ -26,7 +26,6 @@ class SpreadsheetController {
 			} else {
 				this.oAuth2Client.setCredentials(JSON.parse(token));
 			}
-			this.getSheetData();
 		});
 	}
 
