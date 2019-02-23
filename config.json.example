@@ -1,11 +1,11 @@
 {
-    "ranges": {
-        "loot": "'Loot'!A:Z",
-        "permissions": "'Permissions'!A2:B",
-        "options": "'Loot Options'!A2:B",
+	"ranges": {
+		"loot": "'Loot'!A:Z",
+		"permissions": "'Permissions'!A2:B",
+		"options": "'Loot Options'!A2:B",
 		"aliases": "'Aliases'!A2:D"
-    },
-    "discordToken": "",
-    "spreadsheetId": "",
-    "googleCredentials": {}
+	},
+	"discordToken": "",
+	"spreadsheetId": "",
+	"googleCredentials": {}
 }
