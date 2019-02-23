@@ -7,12 +7,13 @@ console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
 const sheetController = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
 
-bot.addCommand("loot", async (msg, args) => {
-	if (args.length < 2) {
+bot.addCommand("loot", async (msg, command, rawArgs) => {
+	if (rawArgs.length < 2) {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
 		return;
 	}
 	await sheetController.getSheetData(config.ranges);
+	const args = sheetController.aliases.applyAliases(command, rawArgs);
 	const boss = args[0];
 	const option = args[1];
 	let name = sheetController.permissions.getName(msg.author.id);

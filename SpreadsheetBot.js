@@ -19,7 +19,7 @@ class SpreadsheetBot {
 				const callback = this.commands[command];
 				if (callback) {
 					const args = match[2].trim().split(" ");
-					callback(msg, args);
+					callback(msg, command, args);
 				}
 			}
 		});

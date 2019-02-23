@@ -5,6 +5,7 @@ const SheetBosses = require("./sheet/SheetBosses");
 const SheetLoot = require("./sheet/SheetLoot");
 const SheetOptions = require("./sheet/SheetOptions");
 const SheetPermissions = require("./sheet/SheetPermissions");
+const SheetAliases = require("./sheet/SheetAliases");
 
 const TOKEN_PATH = "googletoken.json";
 const SCOPE = [
@@ -66,19 +67,18 @@ class SpreadsheetController {
 				ranges.permissions, // Discord permissions
 				ranges.loot, // Boss names, player names
 				ranges.options, // Major upgrade, minor upgrade, etc.
+				ranges.aliases, // Allows bosses to have more than one name, etc.
 			],
 		});
 		const permissionsSheet = res.data.valueRanges[0].values;
 		const lootSheet = res.data.valueRanges[1].values;
 		const optionsSheet = res.data.valueRanges[2].values;
-		if (permissionsSheet && lootSheet && optionsSheet) {
-			this.bosses = new SheetBosses(lootSheet);
-			this.names = new SheetLoot(lootSheet);
-			this.permissions = new SheetPermissions(permissionsSheet);
-			this.options = new SheetOptions(optionsSheet);
-		} else {
-			console.error("Error fetching sheet data");
-		}
+		const aliasesSheet = res.data.valueRanges[3].values;
+		this.bosses = new SheetBosses(lootSheet);
+		this.names = new SheetLoot(lootSheet);
+		this.permissions = new SheetPermissions(permissionsSheet);
+		this.options = new SheetOptions(optionsSheet);
+		this.aliases = new SheetAliases(aliasesSheet);
 	}
 
 	async setLootStatus(name, boss, status) {
