@@ -8,6 +8,8 @@ class SpreadsheetBot {
 		this.client = new Discord.Client();
 		this.client.login(token);
 
+		this.client.on("error", console.error);
+
 		this.client.on("ready", () => {
 			console.log(`Logged in as ${this.client.user.tag}`);
 		});
