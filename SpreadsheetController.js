@@ -83,10 +83,14 @@ class SpreadsheetController {
 
 	async setLootStatus(name, boss, status) {
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
-		const range = this.bosses.getColumn(boss) + this.names.getRow(name);
+		const column = this.bosses.getColumn(boss);
+		const row = this.names.getRow(name);
+		if (!column || !row) {
+			throw new Error(`Column or row was not set. ${column}${row}`);
+		}
 		await sheets.spreadsheets.values.update({
 			spreadsheetId: this.spreadsheetId,
-			range: range,
+			range: column + row,
 			valueInputOption: "USER_ENTERED",
 			resource: {
 				values: [[status]],
