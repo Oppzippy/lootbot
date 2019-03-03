@@ -8,6 +8,7 @@ const bot = new SpreadsheetBot(config.discordToken);
 const sheetController = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
 
 bot.addCommand("loot", async (msg, command, rawArgs) => {
+	console.log(`[MSG] ${msg.author.tag}: ${msg.content}`);
 	if (rawArgs.length < 2) {
 		msg.reply("Invalid parameters. Type !loothelp for help.");
 		return;
