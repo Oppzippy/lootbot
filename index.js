@@ -41,6 +41,11 @@ bot.addCommand("loot", async (msg, command, rawArgs) => {
 		return;
 	}
 
+	if (!sheetController.names.contains(name)) {
+		msg.reply(`${name} is not listed in the spreadsheet. Oppy will see this message and add you shortly.`);
+		return;
+	}
+
 	const localizedOption = sheetController.options.getLocalized(option);
 	await sheetController.setLootStatus(name, boss, localizedOption);
 	msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
