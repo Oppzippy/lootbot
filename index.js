@@ -42,7 +42,7 @@ bot.addCommand("loot", async (msg, command, rawArgs) => {
 	}
 
 	if (!sheetController.names.contains(name)) {
-		msg.reply(`${name} is not listed in the spreadsheet. Oppy will see this message and add you shortly.`);
+		msg.reply(`${name} is not listed in the spreadsheet. Tell Oppzippy to add you.`);
 		return;
 	}
 
