@@ -18,9 +18,11 @@ hooks.forEach((funcName) => {
 
 		for (let i = 0; i < args.length; i++) {
 			try {
-				writeStream.write(args[i]);
-				if (i !== args.length) {
-					writeStream.write(" ");
+				if (args[i]) {
+					writeStream.write(args[i].toString());
+					if (i !== args.length) {
+						writeStream.write(" ");
+					}
 				}
 			} catch (err) {
 				// Should never be more than 2x recursion
