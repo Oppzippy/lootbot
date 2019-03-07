@@ -14,7 +14,7 @@ hooks.forEach((funcName) => {
 	const func = console[funcName];
 	console[funcName] = function(...args) {
 		const date = new Date();
-		args.unshift(dateformat(date, "yyyy-mm-dd hh:mm:ss:")); // add date+time as prefix
+		args.unshift(dateformat(date, "yyyy-mm-dd HH:MM:ss:")); // add date+time as prefix
 
 		for (let i = 0; i < args.length; i++) {
 			try {
