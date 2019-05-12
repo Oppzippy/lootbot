@@ -12,6 +12,9 @@ class SpreadsheetBot {
 
 		this.client.on("ready", () => {
 			console.log(`Logged in as ${this.client.user.tag}`);
+			if (this.status) {
+				this.client.user.setActivity(this.status);
+			}
 		});
 
 		this.client.on("message", (msg) => {
@@ -36,7 +39,8 @@ class SpreadsheetBot {
 	}
 
 	setStatus(status) {
-		this.client.user.setActivity(status);
+		this.status = status;
+		this.client.user.setActivity(status); // Does nothing if not connected
 	}
 }
 
