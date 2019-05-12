@@ -34,6 +34,10 @@ class SpreadsheetBot {
 	removeCommand(command) {
 		delete this.commands[command];
 	}
+
+	setStatus(status) {
+		this.client.user.setActivity(status);
+	}
 }
 
 module.exports = SpreadsheetBot;
