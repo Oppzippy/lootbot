@@ -40,7 +40,9 @@ class SpreadsheetBot {
 
 	setStatus(status) {
 		this.status = status;
-		this.client.user.setActivity(status); // Does nothing if not connected
+		if (this.client.user) { // Delayed until ready if not yet connected
+			this.client.user.setActivity(status);
+		}
 	}
 }
 
