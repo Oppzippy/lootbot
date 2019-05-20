@@ -19,7 +19,8 @@ hooks.forEach((funcName) => {
 		for (let i = 0; i < args.length; i++) {
 			try {
 				if (args[i]) {
-					writeStream.write(args[i].toString());
+					const str = typeof args[i] === "object" ? JSON.stringify(args[i]) : args[i].toString();
+					writeStream.write(str);
 					if (i !== args.length) {
 						writeStream.write(" ");
 					}
