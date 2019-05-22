@@ -5,6 +5,7 @@ const readline = require("readline");
 const SpreadsheetBot = require("./SpreadsheetBot");
 const SpreadsheetController = require("./SpreadsheetController");
 const LootCommand = require("./commands/LootCommand.js");
+const LootHelpCommand = require("./commands/LootHelpCommand.js");
 
 const config = require("./config.json");
 
@@ -16,14 +17,7 @@ bot.setStatus("!loothelp for help");
 
 bot.addCommand("loot", new LootCommand(sheetController, config));
 
-bot.addCommand("loothelp", async (msg) => {
-	await sheetController.getSheetData(config.ranges);
-	msg.reply(`Usage: !loot <boss> <status> [playername]
-<boss> options: ${sheetController.bosses.getBosses().join(", ")}
-<status> options: ${sheetController.options.getOptions().join(", ")}
-[playername]: Required if you have one or more alts listed in the spreadsheet, optional otherwise.
-	`);
-});
+bot.addCommand("loothelp", new LootHelpCommand(sheetController, config));
 
 const rl = readline.createInterface({
 	input: process.stdin,
