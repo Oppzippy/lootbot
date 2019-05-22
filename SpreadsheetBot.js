@@ -30,8 +30,13 @@ class SpreadsheetBot {
 				const command = match[1];
 				const callback = this.commands[command];
 				if (callback) {
+					const type = typeof callback;
 					const args = match[2].trim().split(" ");
-					callback(msg, command, args);
+					if (type === "function") {
+						callback(msg, command, args);
+					} else if (type === "object") {
+						callback.onCommand(msg, command, args);
+					}
 				}
 			}
 		});
