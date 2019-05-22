@@ -45,7 +45,7 @@ bot.addCommand("loot", async (msg, command, rawArgs) => {
 	}
 
 	if (!sheetController.names.contains(name)) {
-		msg.reply(`${name} is not listed in the spreadsheet. Tell Oppzippy to add you.`);
+		msg.reply(`${name} is not listed in the spreadsheet. Tell the admins to add you.`);
 		return;
 	}
 
