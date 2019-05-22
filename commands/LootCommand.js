@@ -1,8 +1,5 @@
-const Command = require("./Command.js");
-
-class LootCommand extends Command {
+class LootCommand {
 	constructor(sheetController, config) {
-		super();
 		this.sheetController = sheetController;
 		this.config = config;
 	}
