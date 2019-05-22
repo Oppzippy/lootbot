@@ -7,6 +7,29 @@ class LootCommand extends Command {
 		this.config = config;
 	}
 
+	validate({
+		boss, option, accountId, name,
+	}) {
+		const errors = [];
+		if (!this.sheetController.bosses.contains(boss)) {
+			errors.push(`${boss} is not a boss.`);
+		}
+		if (!this.sheetController.options.contains(option)) {
+			errors.push(`${option} is not a valid option.`);
+		}
+		if (!name) {
+			errors.push("Please specify a character name.");
+			return errors; // Can't continue without this
+		}
+		if (!this.sheetController.permissions.hasPermission(accountId, name)) {
+			errors.push(`You don't have permission to edit ${name}.`);
+		}
+		if (!this.sheetController.names.contains(name)) {
+			errors.push(`${name} is not listed in the spreadsheet. Tell the admins to add you.`);
+		}
+		return errors;
+	}
+
 	async onCommand(msg, command, rawArgs) {
 		if (rawArgs.length < 2) {
 			msg.reply("Invalid parameters. Type !loothelp for help.");
@@ -17,40 +40,17 @@ class LootCommand extends Command {
 		const boss = args[0];
 		const option = args[1];
 		const name = args[2] || this.sheetController.permissions.getName(msg.author.id);
-		let error = new Error();
-		try {
-			const reply = (text) => {
-				msg.reply(text);
-				throw error;
-			};
-
-			this.constructor.validate(
-				this.sheetController.bosses.contains(boss), reply,
-				`${boss} is not a boss. Type !loothelp for help.`,
-			);
-			this.constructor.validate(
-				this.sheetController.options.contains(option), reply,
-				`${option} is not a valid option. Type !loothelp for help.`,
-			);
-			this.constructor.validate(
-				name, reply,
-				"Please specify a character name. Type !loothelp for help.",
-			);
-			this.constructor.validate(
-				this.sheetController.permissions.hasPermission(msg.author.id, name), reply,
-				`You don't have permission to edit ${name}`,
-			);
-			this.constructor.validate(
-				this.sheetController.names.contains(name), reply,
-				`${name} is not listed in the spreadsheet. Tell the admins to add you.`,
-			);
-			error = null;
-		} catch (err) {
-			if (error !== err) {
-				console.error(error);
-			}
-		}
-		if (!error) {
+		const errors = this.validate({
+			boss,
+			option,
+			accountId: msg.author.id,
+			name,
+		});
+		if (errors.length >= 1) {
+			errors.push("Type !loothelp for help.");
+			const reply = errors.join("\n");
+			msg.reply(reply);
+		} else {
 			const localizedOption = this.sheetController.options.getLocalized(option);
 			await this.sheetController.setLootStatus(name, boss, localizedOption);
 			msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
