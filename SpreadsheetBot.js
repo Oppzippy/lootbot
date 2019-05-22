@@ -17,6 +17,13 @@ class SpreadsheetBot {
 			}
 		});
 
+		this.client.setInterval(() => {
+			// Discord either has a timeout on presences or it just randomly clears
+			if (this.client.user && this.client.readyAt) {
+				this.client.user.setActivity(this.status);
+			}
+		}, 60000);
+
 		this.client.on("message", (msg) => {
 			const match = commandRegex.exec(msg.content);
 			if (match) {
