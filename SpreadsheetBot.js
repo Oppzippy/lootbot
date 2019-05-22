@@ -17,12 +17,6 @@ class SpreadsheetBot {
 			}
 		});
 
-		this.client.on("resume", () => {
-			if (this.status) {
-				this.client.user.setActivity(this.status);
-			}
-		});
-
 		this.client.on("message", (msg) => {
 			const match = commandRegex.exec(msg.content);
 			if (match) {
