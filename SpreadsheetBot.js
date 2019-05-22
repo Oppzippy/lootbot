@@ -51,6 +51,10 @@ class SpreadsheetBot {
 			this.client.user.setActivity(status);
 		}
 	}
+
+	destroy() {
+		this.client.destroy();
+	}
 }
 
 module.exports = SpreadsheetBot;

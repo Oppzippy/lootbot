@@ -1,3 +1,5 @@
+const process = require("process");
+const readline = require("readline");
 require("./Log");
 const SpreadsheetBot = require("./SpreadsheetBot");
 const SpreadsheetController = require("./SpreadsheetController");
@@ -61,4 +63,15 @@ bot.addCommand("loothelp", async (msg) => {
 <status> options: ${sheetController.options.getOptions().join(", ")}
 [playername]: Required if you have one or more alts listed in the spreadsheet, optional otherwise.
 	`);
+});
+
+const rl = readline.createInterface({
+	input: process.stdin,
+});
+
+rl.on("line", (line) => {
+	if (line === "exit") {
+		bot.destroy();
+		process.exit();
+	}
 });
