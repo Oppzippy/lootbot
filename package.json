@@ -10,7 +10,7 @@
   "license": "GPL",
   "dependencies": {
     "dateformat": "^3.0.3",
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "googleapis": "^37.2.0"
   },
   "devDependencies": {

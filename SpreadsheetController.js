@@ -13,8 +13,9 @@ const SCOPE = [
 ];
 
 class SpreadsheetController {
-	constructor(credentials, spreadsheetId) {
+	constructor(credentials, spreadsheetId, ranges) {
 		this.spreadsheetId = spreadsheetId;
+		this.ranges = ranges;
 		const installed = credentials.installed;
 		this.oAuth2Client = new google.auth.OAuth2(
 			installed.client_id,
@@ -59,7 +60,8 @@ class SpreadsheetController {
 		});
 	}
 
-	async getSheetData(ranges) {
+	async getSheetData() {
+		const ranges = this.ranges;
 		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
 		const res = await sheets.spreadsheets.values.batchGet({
 			spreadsheetId: this.spreadsheetId,

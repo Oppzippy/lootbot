@@ -1,14 +1,17 @@
 class LootHelpCommand {
-	constructor(sheetController, config) {
-		this.sheetController = sheetController;
-		this.config = config;
+	constructor(sheetControllers) {
+		this.sheetControllers = sheetControllers;
 	}
 
 	async onCommand(msg) {
-		await this.sheetController.getSheetData(this.config.ranges);
+		const sheetController = this.sheetControllers[msg.channel.id];
+		if (sheetController === undefined) {
+			return;
+		}
+		await sheetController.getSheetData();
 		msg.reply(`Usage: !loot <boss> <status> [playername]
-<boss> options: ${this.sheetController.bosses.getBosses().join(", ")}
-<status> options: ${this.sheetController.options.getOptions().join(", ")}
+<boss> options: ${sheetController.bosses.getBosses().join(", ")}
+<status> options: ${sheetController.options.getOptions().join(", ")}
 [playername]: Required if you have one or more alts listed in the spreadsheet, optional otherwise.`);
 	}
 }

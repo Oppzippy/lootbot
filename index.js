@@ -11,13 +11,22 @@ const config = require("./config.json");
 
 console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
-const sheetController = new SpreadsheetController(config.googleCredentials, config.spreadsheetId);
+const sheetControllers = {};
+Object.keys(config.channels).forEach((channel) => {
+	const channelConfig = config.channels[channel];
+	const controller = new SpreadsheetController(
+		channelConfig.googleCredentials,
+		channelConfig.spreadsheetId,
+		channelConfig.ranges,
+	);
+	sheetControllers[channel] = controller;
+});
 
 bot.setStatus("!loothelp for help");
 
-bot.addCommand("loot", new LootCommand(sheetController, config));
+bot.addCommand("loot", new LootCommand(sheetControllers, config));
 
-bot.addCommand("loothelp", new LootHelpCommand(sheetController, config));
+bot.addCommand("loothelp", new LootHelpCommand(sheetControllers, config));
 
 const rl = readline.createInterface({
 	input: process.stdin,
