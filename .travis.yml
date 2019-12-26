@@ -6,4 +6,5 @@ install:
   - npm install
 
 script:
+  - npx eslint .
   - npm run test
