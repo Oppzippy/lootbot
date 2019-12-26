@@ -6,7 +6,8 @@ class SheetBosses {
 			name,
 			column: String.fromCharCode(65 + i),
 		}]);
-		this.bosses = Object.fromEntries(bosses);
+		const filteredBosses = bosses.filter(entry => entry[0].length !== 0);
+		this.bosses = Object.fromEntries(filteredBosses);
 	}
 
 	includes(boss) {
@@ -18,7 +19,7 @@ class SheetBosses {
 	}
 
 	getColumn(boss) {
-		return this.bosses[boss.toLowerCase()];
+		return this.includes(boss) ? this.bosses[boss.toLowerCase()].column : null;
 	}
 }
 

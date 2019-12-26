@@ -19,13 +19,13 @@ class SheetPermissions {
 	hasPermission(accountId, name) {
 		return this.permissions[accountId] && this.permissions[accountId].findIndex(
 			character => character.toLowerCase() === name.toLowerCase(),
-		) !== undefined;
+		) !== -1;
 	}
 
 	getName(accountId) {
 		const perms = this.permissions[accountId];
 		if (!perms || perms.length !== 1) {
-			return null;
+			return undefined;
 		}
 		return perms[0];
 	}
