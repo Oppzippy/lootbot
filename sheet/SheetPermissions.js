@@ -3,24 +3,27 @@ class SheetPermissions {
 	constructor(sheetData) {
 		const permissions = {};
 		sheetData.forEach((row) => {
-			if (!permissions[row[0]]) {
-				permissions[row[0]] = [];
+			const [accountId, character] = row;
+			if (!permissions[accountId]) {
+				permissions[accountId] = [];
 			}
-			permissions[row[0]].push(row[1].toLowerCase());
+			permissions[accountId].push(character);
 		});
 		this.permissions = permissions;
 	}
 
-	contains(id) {
-		return this.permissions[id] !== undefined;
+	contains(accountId) {
+		return accountId in this.permissions;
 	}
 
-	hasPermission(id, name) {
-		return this.permissions[id] && this.permissions[id].includes(name.toLowerCase());
+	hasPermission(accountId, name) {
+		return this.permissions[accountId] && this.permissions[accountId].findIndex(
+			character => character.toLowerCase() === name.toLowerCase(),
+		) !== undefined;
 	}
 
-	getName(id) {
-		const perms = this.permissions[id];
+	getName(accountId) {
+		const perms = this.permissions[accountId];
 		if (!perms || perms.length !== 1) {
 			return null;
 		}

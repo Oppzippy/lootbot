@@ -3,9 +3,9 @@ class LootHelpCommand {
 		this.sheetControllers = sheetControllers;
 	}
 
-	async onCommand(msg) {
+	async onCommand({ msg }) {
 		const sheetController = this.sheetControllers[msg.channel.id];
-		if (sheetController === undefined) {
+		if (!sheetController) {
 			return;
 		}
 		await sheetController.getSheetData();

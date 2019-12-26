@@ -1,18 +1,13 @@
 
 class SheetLoot {
 	constructor(sheetData) {
-		const names = {};
-		for (let i = 1; i < sheetData.length; i++) {
-			const name = sheetData[i][0];
-			if (name.length !== 0) {
-				names[name.toLowerCase()] = i + 1;
-			}
-		}
-		this.names = names;
+		const names = sheetData.map(row => row[0]);
+		const nameRows = names.map((name, i) => [name.toLowerCase(), i + 1]);
+		this.names = Object.fromEntries(nameRows);
 	}
 
 	contains(name) {
-		return this.names[name.toLowerCase()] !== undefined;
+		return name.toLowerCase() in this.names;
 	}
 
 	getRow(name) {

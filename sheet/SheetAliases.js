@@ -2,11 +2,13 @@ class SheetAliases {
 	constructor(sheetData) {
 		this.aliases = {};
 		sheetData.forEach((row) => {
-			const command = row[0];
-			const arg = parseInt(row[1], 10);
-			const source = row[2];
-			const replacement = row[3];
-			this.addAlias(command, arg, source, replacement);
+			const [command, arg, source, replacement] = row;
+			try {
+				const argNum = parseInt(arg, 10);
+				this.addAlias(command, argNum, source, replacement);
+			} catch (ex) {
+				// ignore
+			}
 		});
 	}
 
@@ -21,14 +23,11 @@ class SheetAliases {
 	}
 
 	applyAliases(command, args) {
-		const newArgs = [];
 		const commandAliases = this.aliases[command];
 		if (commandAliases) {
-			for (let i = 0; i < args.length; i++) {
-				newArgs[i] = SheetAliases.applyAlias(commandAliases, args[i], i);
-			}
+			return args.map((arg, i) => SheetAliases.applyAlias(commandAliases, arg, i));
 		}
-		return newArgs;
+		return [];
 	}
 
 	static applyAlias(commandAliases, arg, num) {

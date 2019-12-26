@@ -13,33 +13,36 @@ class LootCommand {
 		if (!sheetController.options.contains(option)) {
 			errors.push(`${option} is not a valid option.`);
 		}
+		if (!sheetController.permissions.contains(accountId)) {
+			errors.push("You are not listed in the spreadsheet. Tell the admins to add you.");
+			return errors; // Required, can't continue
+		}
 		if (!name) {
 			errors.push("Please specify a character name.");
-			return errors; // Can't continue without this
+			return errors; // Required, can't continue
 		}
 		if (!sheetController.permissions.hasPermission(accountId, name)) {
 			errors.push(`You don't have permission to edit ${name}.`);
 		}
 		if (!sheetController.names.contains(name)) {
-			errors.push(`${name} is not listed in the spreadsheet. Tell the admins to add you.`);
+			errors.push(`${name} is not listed in the spreadsheet. Tell the admins to add this character.`);
 		}
 		return errors;
 	}
 
-	async onCommand(msg, command, rawArgs) {
+	async onCommand({ msg, command, args }) {
 		const sheetController = this.sheetControllers[msg.channel.id];
 		if (sheetController === undefined) {
 			return;
 		}
-		if (rawArgs.length < 2) {
+		if (args.length < 2) {
 			msg.reply("Invalid parameters. Type !loothelp for help.");
 			return;
 		}
 		await sheetController.getSheetData();
-		const args = sheetController.aliases.applyAliases(command, rawArgs);
-		const boss = args[0];
-		const option = args[1];
-		const name = args[2] || sheetController.permissions.getName(msg.author.id);
+		const aliasedArgs = sheetController.aliases.applyAliases(command, args);
+		const [boss, option, providedName] = aliasedArgs;
+		const name = providedName || sheetController.permissions.getName(msg.author.id);
 		const errors = LootCommand.validate({
 			sheetController,
 			boss,

@@ -1,15 +1,12 @@
 
 class SheetOptions {
 	constructor(sheetData) {
-		const options = {};
-		sheetData.forEach((row) => {
-			options[row[0].toLowerCase()] = row[1];
-		});
-		this.options = options;
+		const options = sheetData.map(row => [row[0].toLowerCase(), row[1]]);
+		this.options = Object.fromEntries(options);
 	}
 
 	contains(option) {
-		return this.options[option.toLowerCase()] !== undefined;
+		return option.toLowerCase() in this.options;
 	}
 
 	getOptions() {

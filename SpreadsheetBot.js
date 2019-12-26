@@ -32,10 +32,15 @@ class SpreadsheetBot {
 				if (callback) {
 					const type = typeof callback;
 					const args = match[2].trim().split(" ");
+					const commandData = {
+						msg,
+						command,
+						args,
+					};
 					if (type === "function") {
-						callback(msg, command, args);
+						callback(commandData);
 					} else if (type === "object") {
-						callback.onCommand(msg, command, args);
+						callback.onCommand(commandData);
 					}
 				}
 			}

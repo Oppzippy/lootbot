@@ -16,7 +16,7 @@ class SpreadsheetController {
 	constructor(credentials, spreadsheetId, ranges) {
 		this.spreadsheetId = spreadsheetId;
 		this.ranges = ranges;
-		const installed = credentials.installed;
+		const { installed } = credentials;
 		this.oAuth2Client = new google.auth.OAuth2(
 			installed.client_id,
 			installed.client_secret,
@@ -72,10 +72,13 @@ class SpreadsheetController {
 				ranges.aliases, // Allows bosses to have more than one name, etc.
 			],
 		});
-		const permissionsSheet = res.data.valueRanges[0].values;
-		const lootSheet = res.data.valueRanges[1].values;
-		const optionsSheet = res.data.valueRanges[2].values;
-		const aliasesSheet = res.data.valueRanges[3].values;
+		const rangeValues = res.data.valueRanges.map(range => range.values);
+		const [
+			permissionsSheet,
+			lootSheet,
+			optionsSheet,
+			aliasesSheet,
+		] = rangeValues;
 		this.bosses = new SheetBosses(lootSheet);
 		this.names = new SheetLoot(lootSheet);
 		this.permissions = new SheetPermissions(permissionsSheet);
@@ -92,7 +95,7 @@ class SpreadsheetController {
 		}
 		await sheets.spreadsheets.values.update({
 			spreadsheetId: this.spreadsheetId,
-			range: column + row,
+			range: `${column}${row}`,
 			valueInputOption: "USER_ENTERED",
 			resource: {
 				values: [[status]],
