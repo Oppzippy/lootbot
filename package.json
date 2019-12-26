@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Oppzippy",
   "license": "GPL",
   "dependencies": {
     "dateformat": "^3.0.3",
     "discord.js": "^11.5.1",
-    "googleapis": "^37.2.0"
+    "googleapis": "^46.0.0"
   },
   "devDependencies": {
     "eslint": "^5.14.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.19.1",
+    "jest": "^24.9.0"
   }
 }
