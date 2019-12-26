@@ -1,11 +1,11 @@
 {
-  "name": "discord-loot-spreadsheet-bot",
+  "name": "Lootbot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Oppzippy/discord-loot-spreadsheet-bot.git"
+    "url": "https://github.com/Oppzippy/lootbot.git"
   },
   "scripts": {
     "test": "jest"

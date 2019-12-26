@@ -1,4 +1,4 @@
-# Discord Loot Spreadsheet Bot
+# Lootbot
 Edits a google sheet containing information about what bosses raiders need loot from.
 
 Spreadsheet format:
