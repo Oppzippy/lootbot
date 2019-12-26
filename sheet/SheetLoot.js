@@ -3,7 +3,8 @@ class SheetLoot {
 	constructor(sheetData) {
 		const names = sheetData.map(row => row[0]);
 		const nameRows = names.map((name, i) => [name.toLowerCase(), i + 1]);
-		this.names = Object.fromEntries(nameRows);
+		const filtered = nameRows.filter(name => name[0].length !== 0);
+		this.names = Object.fromEntries(filtered);
 	}
 
 	includes(name) {
