@@ -12,7 +12,7 @@ class SheetPermissions {
 		this.permissions = permissions;
 	}
 
-	contains(accountId) {
+	includes(accountId) {
 		return accountId in this.permissions;
 	}
 

@@ -24,9 +24,9 @@ Object.keys(config.channels).forEach((channel) => {
 
 bot.setStatus("!loothelp for help");
 
-bot.addCommand("loot", new LootCommand(sheetControllers, config));
+bot.addCommand("loot", new LootCommand(sheetControllers));
 
-bot.addCommand("loothelp", new LootHelpCommand(sheetControllers, config));
+bot.addCommand("loothelp", new LootHelpCommand(sheetControllers));
 
 const rl = readline.createInterface({
 	input: process.stdin,

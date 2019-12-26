@@ -6,7 +6,7 @@ class SheetLoot {
 		this.names = Object.fromEntries(nameRows);
 	}
 
-	contains(name) {
+	includes(name) {
 		return name.toLowerCase() in this.names;
 	}
 

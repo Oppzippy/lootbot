@@ -9,7 +9,7 @@ class SheetBosses {
 		this.bosses = Object.fromEntries(bosses);
 	}
 
-	contains(boss) {
+	includes(boss) {
 		return boss.toLowerCase() in this.bosses;
 	}
 

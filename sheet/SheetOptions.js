@@ -5,7 +5,7 @@ class SheetOptions {
 		this.options = Object.fromEntries(options);
 	}
 
-	contains(option) {
+	includes(option) {
 		return option.toLowerCase() in this.options;
 	}
 

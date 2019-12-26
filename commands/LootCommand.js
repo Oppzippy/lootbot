@@ -7,13 +7,13 @@ class LootCommand {
 		sheetController, boss, option, accountId, name,
 	}) {
 		const errors = [];
-		if (!sheetController.bosses.contains(boss)) {
+		if (!sheetController.bosses.includes(boss)) {
 			errors.push(`${boss} is not a boss.`);
 		}
-		if (!sheetController.options.contains(option)) {
+		if (!sheetController.options.includes(option)) {
 			errors.push(`${option} is not a valid option.`);
 		}
-		if (!sheetController.permissions.contains(accountId)) {
+		if (!sheetController.permissions.includes(accountId)) {
 			errors.push("You are not listed in the spreadsheet. Tell the admins to add you.");
 			return errors; // Required, can't continue
 		}
@@ -24,7 +24,7 @@ class LootCommand {
 		if (!sheetController.permissions.hasPermission(accountId, name)) {
 			errors.push(`You don't have permission to edit ${name}.`);
 		}
-		if (!sheetController.names.contains(name)) {
+		if (!sheetController.names.includes(name)) {
 			errors.push(`${name} is not listed in the spreadsheet. Tell the admins to add this character.`);
 		}
 		return errors;
