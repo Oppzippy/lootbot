@@ -1,4 +1,3 @@
-
 class SheetLoot {
 	constructor(sheetData) {
 		const names = sheetData.map(row => row[0]);

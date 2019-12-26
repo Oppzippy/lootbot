@@ -24,9 +24,10 @@ function getTestData(options) {
 				applyAliases: jest.fn((command, args) => args),
 			},
 			permissions: {
-				getName: options.permissionsHasName !== false
-					? jest.fn(accountId => `Testname${accountId}`)
-					: jest.fn(() => null),
+				getName:
+					options.permissionsHasName !== false
+						? jest.fn(accountId => `Testname${accountId}`)
+						: jest.fn(() => null),
 				includes: jest.fn(() => options.permissionsIncludes),
 				hasPermission: jest.fn(() => options.permissionsHasPermission),
 			},
@@ -42,13 +43,8 @@ function getTestData(options) {
 					return this.mockData[key];
 				},
 			},
-			bosses: [
-				"firstboss",
-				"secondboss",
-			],
-			names: [
-				options.permissionsIncludes ? "Testname2" : undefined,
-			]
+			bosses: ["firstboss", "secondboss"],
+			names: [options.permissionsIncludes ? "Testname2" : undefined],
 		},
 	};
 	return { commandData, sheetControllers, reply };
@@ -75,7 +71,9 @@ test("gives error message with bad boss name", async () => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/nonexistentboss is not a boss/);
+	expect(reply.mock.results[0].value).toMatch(
+		/nonexistentboss is not a boss/,
+	);
 });
 
 test("gives error message with bad option name", async () => {
@@ -88,7 +86,9 @@ test("gives error message with bad option name", async () => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/nonexistentoption is not a valid option/);
+	expect(reply.mock.results[0].value).toMatch(
+		/nonexistentoption is not a valid option/,
+	);
 });
 
 test("gives error message when not included in permissions", async () => {
@@ -101,7 +101,9 @@ test("gives error message when not included in permissions", async () => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/You are not listed in the spreadsheet/);
+	expect(reply.mock.results[0].value).toMatch(
+		/You are not listed in the spreadsheet/,
+	);
 });
 
 test("gives error message when there is more than one character option and a name isn't specified", async () => {
@@ -116,7 +118,9 @@ test("gives error message when there is more than one character option and a nam
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/Please specify a character name/);
+	expect(reply.mock.results[0].value).toMatch(
+		/Please specify a character name/,
+	);
 });
 
 test("gives error message when you don't have edit permission", async () => {
@@ -131,7 +135,9 @@ test("gives error message when you don't have edit permission", async () => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/You don't have permission to edit Otheruser/);
+	expect(reply.mock.results[0].value).toMatch(
+		/You don't have permission to edit Otheruser/,
+	);
 });
 
 test("gives error message when name isn't listed in spreadsheet", async () => {
@@ -147,10 +153,12 @@ test("gives error message when name isn't listed in spreadsheet", async () => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/Testname2 is not listed in the spreadsheet/);
+	expect(reply.mock.results[0].value).toMatch(
+		/Testname2 is not listed in the spreadsheet/,
+	);
 });
 
-test("works with valid args and one character", async() => {
+test("works with valid args and one character", async () => {
 	const { commandData, sheetControllers, reply } = getTestData({
 		permissionsIncludes: true,
 		permissionsHasPermission: true,
@@ -161,10 +169,12 @@ test("works with valid args and one character", async() => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/Updated Testname2's loot status for firstboss to Major Upgrade/);
+	expect(reply.mock.results[0].value).toMatch(
+		/Updated Testname2's loot status for firstboss to Major Upgrade/,
+	);
 });
 
-test("works with valid args and multiple characters", async() => {
+test("works with valid args and multiple characters", async () => {
 	const { commandData, sheetControllers, reply } = getTestData({
 		permissionsIncludes: true,
 		permissionsHasPermission: true,
@@ -177,5 +187,7 @@ test("works with valid args and multiple characters", async() => {
 
 	const lootCommand = new LootCommand(sheetControllers);
 	await lootCommand.onCommand(commandData);
-	expect(reply.mock.results[0].value).toMatch(/Updated Testname2's loot status for firstboss to Major Upgrade/);
+	expect(reply.mock.results[0].value).toMatch(
+		/Updated Testname2's loot status for firstboss to Major Upgrade/,
+	);
 });

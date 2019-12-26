@@ -1,7 +1,7 @@
 class SheetAliases {
 	constructor(sheetData) {
 		this.aliases = {};
-		sheetData.forEach((row) => {
+		sheetData.forEach(row => {
 			const [command, arg, source, replacement] = row;
 			try {
 				const argNum = parseInt(arg, 10);
@@ -25,7 +25,9 @@ class SheetAliases {
 	applyAliases(command, args) {
 		const commandAliases = this.aliases[command];
 		if (commandAliases) {
-			return args.map((arg, i) => SheetAliases.applyAlias(commandAliases, arg, i));
+			return args.map((arg, i) =>
+				SheetAliases.applyAlias(commandAliases, arg, i),
+			);
 		}
 		return [];
 	}

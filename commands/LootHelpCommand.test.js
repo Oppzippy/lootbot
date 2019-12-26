@@ -20,9 +20,9 @@ function getTestData() {
 			},
 			options: {
 				getOptions: () => ["major", "minor"],
-			}
+			},
 		},
-	}
+	};
 
 	return { commandData, sheetControllers, reply };
 }

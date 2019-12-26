@@ -12,7 +12,7 @@ const config = require("./config.json");
 console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
 const sheetControllers = {};
-Object.keys(config.channels).forEach((channel) => {
+Object.keys(config.channels).forEach(channel => {
 	const channelConfig = config.channels[channel];
 	const controller = new SpreadsheetController(
 		channelConfig.googleCredentials,
@@ -32,7 +32,7 @@ const rl = readline.createInterface({
 	input: process.stdin,
 });
 
-rl.on("line", (line) => {
+rl.on("line", line => {
 	if (line === "exit") {
 		bot.destroy();
 		process.exit();

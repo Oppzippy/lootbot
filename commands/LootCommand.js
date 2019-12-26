@@ -3,9 +3,7 @@ class LootCommand {
 		this.sheetControllers = sheetControllers;
 	}
 
-	static validate({
-		sheetController, boss, option, accountId, name,
-	}) {
+	static validate({ sheetController, boss, option, accountId, name }) {
 		const errors = [];
 		if (!sheetController.bosses.includes(boss)) {
 			errors.push(`${boss} is not a boss.`);
@@ -14,7 +12,9 @@ class LootCommand {
 			errors.push(`${option} is not a valid option.`);
 		}
 		if (!sheetController.permissions.includes(accountId)) {
-			errors.push("You are not listed in the spreadsheet. Tell the admins to add you.");
+			errors.push(
+				"You are not listed in the spreadsheet. Tell the admins to add you.",
+			);
 			return errors; // Required, can't continue
 		}
 		if (!name) {
@@ -25,7 +25,9 @@ class LootCommand {
 			errors.push(`You don't have permission to edit ${name}.`);
 		}
 		if (!sheetController.names.includes(name)) {
-			errors.push(`${name} is not listed in the spreadsheet. Tell the admins to add this character.`);
+			errors.push(
+				`${name} is not listed in the spreadsheet. Tell the admins to add this character.`,
+			);
 		}
 		return errors;
 	}
@@ -42,7 +44,8 @@ class LootCommand {
 		await sheetController.getSheetData();
 		const aliasedArgs = sheetController.aliases.applyAliases(command, args);
 		const [boss, option, providedName] = aliasedArgs;
-		const name = providedName || sheetController.permissions.getName(msg.author.id);
+		const name =
+			providedName || sheetController.permissions.getName(msg.author.id);
 		const errors = LootCommand.validate({
 			sheetController,
 			boss,
@@ -55,9 +58,13 @@ class LootCommand {
 			const reply = errors.join("\n");
 			msg.reply(reply);
 		} else {
-			const localizedOption = sheetController.options.getLocalized(option);
+			const localizedOption = sheetController.options.getLocalized(
+				option,
+			);
 			await sheetController.setLootStatus(name, boss, localizedOption);
-			msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}.`);
+			msg.reply(
+				`Updated ${name}'s loot status for ${boss} to ${localizedOption}.`,
+			);
 		}
 	}
 }

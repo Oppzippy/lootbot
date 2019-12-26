@@ -1,17 +1,17 @@
 module.exports = {
-    "extends": "airbnb-base",
-	"rules": {
-		"no-tabs": 0,
-		"no-mixed-spaces-and-tabs": 0,
-		"linebreak-style": 0,
-		"indent": ["error", "tab"],
-		"quotes": ["error", "double"],
-		"func-names": 0,
-		"space-before-function-paren": 0,
-		"no-plusplus": 0,
-		"prefer-destructuring": 0,
-        "object-shorthand": 0,
-        "prefer-arrow-callback": 0,
-        "no-console": 0,
-	}
+	env: {
+		browser: true,
+		commonjs: true,
+		es6: true,
+		jest: true,
+	},
+	extends: "eslint:recommended",
+	globals: {
+		Atomics: "readonly",
+		SharedArrayBuffer: "readonly",
+	},
+	parserOptions: {
+		ecmaVersion: 2018,
+	},
+	rules: {},
 };

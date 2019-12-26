@@ -1,25 +1,13 @@
 const SheetOptions = require("./SheetOptions");
 
 function getTestData() {
-	return [
-		[
-			"major",
-			"Major Upgrade",
-		],
-		[
-			"minor",
-			"Minor Upgrade",
-		],
-	];
+	return [["major", "Major Upgrade"], ["minor", "Minor Upgrade"]];
 }
 
 test("returns options", () => {
 	const data = getTestData();
 	const options = new SheetOptions(data);
-	expect(options.getOptions()).toEqual([
-		"major",
-		"minor",
-	]);
+	expect(options.getOptions()).toEqual(["major", "minor"]);
 });
 
 test("localizes options", () => {

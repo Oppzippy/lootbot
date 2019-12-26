@@ -24,7 +24,7 @@ class SpreadsheetBot {
 			}
 		}, 60000);
 
-		this.client.on("message", (msg) => {
+		this.client.on("message", msg => {
 			const match = commandRegex.exec(msg.content);
 			if (match) {
 				const command = match[1];
@@ -57,7 +57,8 @@ class SpreadsheetBot {
 
 	setStatus(status) {
 		this.status = status;
-		if (this.client.user) { // Delayed until ready if not yet connected
+		if (this.client.user) {
+			// Delayed until ready if not yet connected
 			this.client.user.setActivity(status);
 		}
 	}

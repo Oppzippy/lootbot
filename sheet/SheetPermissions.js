@@ -1,8 +1,7 @@
-
 class SheetPermissions {
 	constructor(sheetData) {
 		const permissions = {};
-		sheetData.forEach((row) => {
+		sheetData.forEach(row => {
 			const [accountId, character] = row;
 			if (!permissions[accountId]) {
 				permissions[accountId] = [];
@@ -17,9 +16,12 @@ class SheetPermissions {
 	}
 
 	hasPermission(accountId, name) {
-		return this.permissions[accountId] && this.permissions[accountId].findIndex(
-			character => character.toLowerCase() === name.toLowerCase(),
-		) !== -1;
+		return (
+			this.permissions[accountId] &&
+			this.permissions[accountId].findIndex(
+				character => character.toLowerCase() === name.toLowerCase(),
+			) !== -1
+		);
 	}
 
 	getName(accountId) {

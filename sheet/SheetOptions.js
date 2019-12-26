@@ -1,4 +1,3 @@
-
 class SheetOptions {
 	constructor(sheetData) {
 		const options = sheetData.map(row => [row[0].toLowerCase(), row[1]]);

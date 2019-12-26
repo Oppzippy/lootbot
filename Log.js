@@ -1,16 +1,13 @@
 const fs = require("fs");
 const dateformat = require("dateformat");
 
-const hooks = [
-	"log",
-	"error",
-];
+const hooks = ["log", "error"];
 
 const writeStream = fs.createWriteStream("app.log", {
 	flags: "a", // append
 });
 
-hooks.forEach((funcName) => {
+hooks.forEach(funcName => {
 	const func = console[funcName];
 	console[funcName] = function(...args) {
 		const date = new Date();
@@ -19,7 +16,10 @@ hooks.forEach((funcName) => {
 		for (let i = 0; i < args.length; i++) {
 			try {
 				if (args[i]) {
-					const str = typeof args[i] === "object" ? JSON.stringify(args[i]) : args[i].toString();
+					const str =
+						typeof args[i] === "object"
+							? JSON.stringify(args[i])
+							: args[i].toString();
 					writeStream.write(str);
 					if (i !== args.length) {
 						writeStream.write(" ");

@@ -8,9 +8,7 @@ const SheetPermissions = require("./sheet/SheetPermissions");
 const SheetAliases = require("./sheet/SheetAliases");
 
 const TOKEN_PATH = "googletoken.json";
-const SCOPE = [
-	"https://www.googleapis.com/auth/spreadsheets",
-];
+const SCOPE = ["https://www.googleapis.com/auth/spreadsheets"];
 
 class SpreadsheetController {
 	constructor(credentials, spreadsheetId, ranges) {
@@ -41,7 +39,7 @@ class SpreadsheetController {
 			input: process.stdin,
 			output: process.stdout,
 		});
-		rl.question("Enter code: ", (code) => {
+		rl.question("Enter code: ", code => {
 			rl.close();
 			this.oAuth2Client.getToken(code, (err, token) => {
 				if (err) {
@@ -49,7 +47,7 @@ class SpreadsheetController {
 					return;
 				}
 				this.oAuth2Client.setCredentials(token);
-				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err2) => {
+				fs.writeFile(TOKEN_PATH, JSON.stringify(token), err2 => {
 					if (err2) {
 						console.error("Failed to write token to file");
 					} else {
@@ -62,7 +60,10 @@ class SpreadsheetController {
 
 	async getSheetData() {
 		const ranges = this.ranges;
-		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
+		const sheets = google.sheets({
+			version: "v4",
+			auth: this.oAuth2Client,
+		});
 		const res = await sheets.spreadsheets.values.batchGet({
 			spreadsheetId: this.spreadsheetId,
 			ranges: [
@@ -87,7 +88,10 @@ class SpreadsheetController {
 	}
 
 	async setLootStatus(name, boss, status) {
-		const sheets = google.sheets({ version: "v4", auth: this.oAuth2Client });
+		const sheets = google.sheets({
+			version: "v4",
+			auth: this.oAuth2Client,
+		});
 		const column = this.bosses.getColumn(boss);
 		const row = this.names.getRow(name);
 		if (!column || !row) {

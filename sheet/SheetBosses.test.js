@@ -1,22 +1,13 @@
 const SheetBosses = require("./SheetBosses");
 
 function getTestData() {
-	return [
-		[
-			"",
-			"FirstBoss",
-			"SecondBoss",
-		],
-	];
+	return [["", "FirstBoss", "SecondBoss"]];
 }
 
 test("returns boss names", () => {
 	const data = getTestData();
 	const bosses = new SheetBosses(data);
-	expect(bosses.getBosses()).toEqual([
-		"FirstBoss",
-		"SecondBoss",
-	]);
+	expect(bosses.getBosses()).toEqual(["FirstBoss", "SecondBoss"]);
 });
 
 test("returns correct boss columns", () => {
