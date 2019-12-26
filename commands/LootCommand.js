@@ -57,7 +57,7 @@ class LootCommand {
 		} else {
 			const localizedOption = sheetController.options.getLocalized(option);
 			await sheetController.setLootStatus(name, boss, localizedOption);
-			msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}`);
+			msg.reply(`Updated ${name}'s loot status for ${boss} to ${localizedOption}.`);
 		}
 	}
 }
