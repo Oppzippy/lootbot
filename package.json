@@ -8,8 +8,7 @@
 		"url": "https://github.com/Oppzippy/lootbot.git"
 	},
 	"scripts": {
-		"test": "jest",
-		"ci-test": "jest --ci"
+		"test": "jest"
 	},
 	"author": "Oppzippy",
 	"license": "GPL-3.0-only",
