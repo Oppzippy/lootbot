@@ -1,4 +1,4 @@
-const SheetAliases = require("./SheetAliases.js");
+const SheetAliases = require("./SheetAliases");
 
 function getTestData() {
 	return [
