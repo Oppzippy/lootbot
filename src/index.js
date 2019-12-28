@@ -7,7 +7,7 @@ const SpreadsheetController = require("./SpreadsheetController");
 const LootCommand = require("./commands/LootCommand.js");
 const LootHelpCommand = require("./commands/LootHelpCommand.js");
 
-const config = require("./config.json");
+const config = require("../config.json"); // TODO make this configurable
 
 console.log("Starting loot bot...");
 const bot = new SpreadsheetBot(config.discordToken);
