@@ -1,6 +1,5 @@
 require("./Log");
 const process = require("process");
-const readline = require("readline");
 
 const SpreadsheetBot = require("./SpreadsheetBot");
 const SpreadsheetController = require("./SpreadsheetController");
@@ -28,13 +27,5 @@ bot.addCommand("loot", new LootCommand(sheetControllers));
 
 bot.addCommand("loothelp", new LootHelpCommand(sheetControllers));
 
-const rl = readline.createInterface({
-	input: process.stdin,
-});
-
-rl.on("line", line => {
-	if (line === "exit") {
-		bot.destroy();
-		process.exit();
-	}
-});
+process.on("SIGINT", async () => await bot.destroy());
+process.on("SIGTERM", async () => await bot.destroy());
