@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: [13.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -30,4 +30,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          script: screen bash update.sh
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            screen -dm bash -c "./update.sh"
