@@ -39,7 +39,7 @@ class SpreadsheetController {
 			input: process.stdin,
 			output: process.stdout,
 		});
-		rl.question("Enter code: ", code => {
+		rl.question("Enter code: ", (code) => {
 			rl.close();
 			this.oAuth2Client.getToken(code, (err, token) => {
 				if (err) {
@@ -47,7 +47,7 @@ class SpreadsheetController {
 					return;
 				}
 				this.oAuth2Client.setCredentials(token);
-				fs.writeFile(TOKEN_PATH, JSON.stringify(token), err2 => {
+				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err2) => {
 					if (err2) {
 						console.error("Failed to write token to file");
 					} else {
@@ -73,7 +73,7 @@ class SpreadsheetController {
 				ranges.aliases, // Allows bosses to have more than one name, etc.
 			],
 		});
-		const rangeValues = res.data.valueRanges.map(range => range.values);
+		const rangeValues = res.data.valueRanges.map((range) => range.values);
 		const [
 			permissionsSheet,
 			lootSheet,
@@ -99,7 +99,7 @@ class SpreadsheetController {
 		}
 		await sheets.spreadsheets.values.update({
 			spreadsheetId: this.spreadsheetId,
-			range: `${column}${row}`,
+			range: `${this.ranges.loot.split("!")[0]}!${column}${row}`,
 			valueInputOption: "USER_ENTERED",
 			resource: {
 				values: [[status]],
