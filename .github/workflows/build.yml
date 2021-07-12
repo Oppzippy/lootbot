@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
-          node-version: 16.x
+          node-version: 16
       - name: npm install, lint, and test
         run: |
           npm ci
@@ -26,7 +26,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - name: SSH Remote Commands
-        uses: appleboy/ssh-action@v0.0.7
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
